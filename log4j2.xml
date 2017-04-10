@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="debug" monitorInterval="60">
+    <Appenders>
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss} %-40c{1} %-5p - %m%n"/>
+        </Console>
+
+        <RollingFile name="TraceAppender" fileName="ltrace.log" filePattern="log/${sys:weblogic.Name}_daoquery.log.%i" >
+            <PatternLayout pattern="%d{HH:mm:ss,SSS} %m%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10000KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        <CafAppender name="eclipse">
+            <PatternLayout pattern="%c %d{ISO8601} -- %p -- %m%n"/>
+        </CafAppender>
+    </Appenders>
+    <Loggers>
+        <Logger name="nl.donna.generiek.client.remoting.messaging.BufferedMessageListener.tracejms" level="WARN"/>
+        <Logger name="TraceAppender.access" level="DEBUG"/>
+        <Root level="error">
+            <AppenderRef ref="stdout"/>
+            <AppenderRef ref="eclipse"/>
+        </Root>
+    </Loggers>
+</Configuration>
